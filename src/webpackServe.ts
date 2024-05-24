@@ -11,7 +11,7 @@ import WebpackInjectPlugin from 'webpack-inject-plugin';
 import is from '@sindresorhus/is';
 import express from 'express';
 import createHTML from 'create-html';
-import { choosePort, prepareUrls } from 'react-dev-utils/WebpackDevServerUtils';
+import { choosePort, prepareUrls } from './react-dev-tools/WebpackDevServerUtils';
 import { Context } from './types';
 // eslint-disable-next-line import/no-named-as-default
 import options from './options';
@@ -68,7 +68,7 @@ module.exports = async (ctx: Context) => {
       : customDevServerConfig.host;
   const port = await choosePort(
     host,
-    customDevServerConfig.port || defaultPort,
+    +(customDevServerConfig.port || defaultPort),
   );
   if (!port) {
     return;
@@ -99,37 +99,37 @@ module.exports = async (ctx: Context) => {
     ],
   };
   const devServerConfig: WebpackDevServer.Configuration = {
-    contentBase: path.join(ctx.opts.projectRoot, 'www'),
+    static: {
+        directory: path.join(ctx.opts.projectRoot, 'www'),
+        watch: true,
+    },
     historyApiFallback: true,
-    watchContentBase: true,
     hot: true,
     ...customDevServerConfig,
     host,
     port,
-    before: (app, server, compiler) => {
-      if (customDevServerConfig.before) {
-        customDevServerConfig.before(app, server, compiler);
-      }
-      targetPlatforms.forEach((platform) => {
-        app.use(
-          `/${platform}`,
-          express.static(
-            path.join(
-              ctx.opts.projectRoot,
-              'platforms',
-              platform,
-              'platform_www',
-            ),
-          ),
-        );
-      });
+    onBeforeSetupMiddleware(devServer) {
+        if (customDevServerConfig.onBeforeSetupMiddleware) {
+            customDevServerConfig.onBeforeSetupMiddleware(devServer);
+          }
+          targetPlatforms.forEach((platform) => {
+            devServer.app?.use(
+              `/${platform}`,
+              express.static(
+                path.join(
+                  ctx.opts.projectRoot,
+                  'platforms',
+                  platform,
+                  'platform_www',
+                ),
+              ),
+            );
+          });
     },
   };
 
   // HMR
   if (devServerConfig.hot)
-    WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerConfig);
-
   targetPlatforms.forEach((platform) => {
     if (platform === 'browser') {
       const html = createHTML({
@@ -173,7 +173,7 @@ module.exports = async (ctx: Context) => {
     });
   });
 
-  await new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     server.listen(port, host, (err) => {
       if (err) {
         reject(err);
