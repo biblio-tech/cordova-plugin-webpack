@@ -45,7 +45,7 @@
     "current-device": "^0.10.1",
     "detect-port-alt": "^1.1.6",
     "elementtree": "^0.1.7",
-    "express": "^4.17.1",
+    "express": "^4.21.1",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "glob": "^7.1.7",
     "is-ua-webview": "^1.0.5",
