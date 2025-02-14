@@ -1,6 +1,6 @@
 {
   "name": "@bibliotech/cordova-plugin-webpack",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Cordova Webpack Plugin",
   "files": [
     "dist",
@@ -48,8 +48,9 @@
     "express": "^4.17.1",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "glob": "^7.1.7",
-    "is-ua-webview": "^1.0.5",
+    "is-absolute-url": "^3.0.3",
     "is-root": "^2.1.0",
+    "is-ua-webview": "^1.0.5",
     "prompts": "^2.4.2",
     "source-map-support": "^0.5.19",
     "supports-color": "^8.1.1",
@@ -63,7 +64,7 @@
     "@types/node": "^15.6.2",
     "@types/supports-color": "^8.1.1",
     "@types/webpack": "^4.41.26",
-    "@types/webpack-dev-server": "^3.11.5",
+    "@types/webpack-dev-server": "^4.0.0",
     "@types/yargs": "^15.0.11",
     "clean-webpack-plugin": "^3.0.0",
     "cordova-set-version": "^12.0.0",
