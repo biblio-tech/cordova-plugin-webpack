@@ -1,7 +1,7 @@
 import { Arguments } from 'yargs';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import createDevServerConfig from 'webpack-dev-server/lib/utils/createConfig';
+const createDevServerConfig = require('../helpers/createConfig');
 import is from '@sindresorhus/is';
 
 export const defaultHost = '0.0.0.0';

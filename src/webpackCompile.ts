@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import yargs from 'yargs';
 import yargsUnparser from 'yargs-unparser';
 import webpack from 'webpack';
-import convertArgv from 'webpack-cli/bin/utils/convert-argv';
+import convertArgv from './helpers/convert-argv';
 import is from '@sindresorhus/is';
 import { Context } from './types';
 // eslint-disable-next-line import/no-named-as-default

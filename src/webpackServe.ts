@@ -6,7 +6,7 @@ import yargs from 'yargs/yargs';
 import yargsUnparser from 'yargs-unparser';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import convertArgv from 'webpack-cli/bin/utils/convert-argv';
+import convertArgv from './helpers/convert-argv';
 import WebpackInjectPlugin from 'webpack-inject-plugin';
 import is from '@sindresorhus/is';
 import express from 'express';
@@ -53,12 +53,12 @@ module.exports = async (ctx: Context) => {
 
   const webpackArgv = webpackYargs
     .options(options.webpack) // set webpack yargs options
-    .options(options.devServer) // set webpack-dev-server yargs options
+    .options(options.devServer as any) // set webpack-dev-server yargs options
     .version(getVersion()).argv;
 
   const [customWebpackConfig, customDevServerConfig] = await createConfig(
     convertArgv(webpackArgv), // create webpack configuration from yargs.argv and webpack.config.js
-    webpackArgv,
+    webpackArgv as any,
   );
 
   const protocol = customDevServerConfig.https ? 'https' : 'http';
